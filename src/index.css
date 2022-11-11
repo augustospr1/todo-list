@@ -11,3 +11,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.MuiListItemIcon-root input {
+
+}
+.react-datepicker-wrapper input {
+  border: 1px solid rgba(0, 0, 0, 0.342);
+  padding: 10px 10px;
+  border-radius: 5px;
+}

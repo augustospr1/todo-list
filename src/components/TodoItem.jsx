@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -10,6 +10,9 @@ import CommentIcon from "@mui/icons-material/Comment";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Paper } from "@mui/material";
 import EditTodoDialog from "./EditTodoDialog";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 
 export default function TodoItem({ todo, deleteTodo, editTodo }) {
   const [openDialog, setOpenDialog] = React.useState(false);
@@ -17,6 +20,19 @@ export default function TodoItem({ todo, deleteTodo, editTodo }) {
   const dialogHandler = () => {
     setOpenDialog(!openDialog);
   };
+
+  const [startDate, setStartDate] = useState(new Date());
+
+  const getData = startDate.toISOString().substring(0,10);
+  const getHour = startDate.toISOString().substring(11, 19);
+
+
+
+  function mostraConsole() {
+    console.log(getData);
+  }
+
+  mostraConsole();
 
   return (
     <>
@@ -37,6 +53,13 @@ export default function TodoItem({ todo, deleteTodo, editTodo }) {
             <ListItemText primary={todo.text} onClick={() => setOpenDialog(true)} />
           </ListItemButton>
         </ListItem>
+        <div style={{ padding: "0em 1em" }}>
+          <p style={{margin: "0em 0em 0.5em"}}>Data para fazer a tarefa</p>
+          <DatePicker style={{border: "none"}}
+          selected={startDate} 
+          onChange={(date) => setStartDate(date)} 
+          dateFormat="dd/MM/yyyy" />
+        </div>
       </Paper>
     </>
   );

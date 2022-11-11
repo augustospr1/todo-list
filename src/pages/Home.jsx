@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Form from "../components/Form";
 import TodoItem from "../components/TodoItem";
 
+
 export default function Home() {
   const [todos, setTodos] = useState([]);
   const addTodo = (todo) => {
@@ -29,8 +30,13 @@ export default function Home() {
     setTodos(todosArray);
   };
 
+
+
   return (
-    <Container maxWidth="xs" style={{ marginTop: "1em" }}>
+    <Container maxWidth="md" style={{ marginTop: "1em" }}>
+        <div style={{ textAlign: "center" }}>
+          <h1 style={{ color: "#000" }} >Tarefas do dia</h1>
+        </div>
       <Form addTodo={addTodo} />
       <List sx={{ marginTop: "1em" }}>
         {todos.map((todo) => (
