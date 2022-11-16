@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
-import CommentIcon from "@mui/icons-material/Comment";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Paper } from "@mui/material";
 import EditTodoDialog from "../EditTodoDialog";
@@ -14,7 +12,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import TimePicker from 'react-time-picker';
 import { formatDate } from "../../utils/date";
-// import './style.css';
+import Grid from '@mui/material/Grid';
+import './style.css';
 
 
 export function TodoItem({ todo, deleteTodo, editTodo }) {
@@ -57,19 +56,25 @@ export function TodoItem({ todo, deleteTodo, editTodo }) {
             <ListItemText primary={todo.text} onClick={() => setOpenDialog(true)} />
           </ListItemButton>
         </ListItem>
+        <Grid container>
           <div style={{ padding: "0em 1em 0.5em" }} className="dateSelector">
-            <p style={{margin: "0em 0em 0.5em"}}>Dia e hora para fazer:</p>
-            <DatePicker style={{border: "none"}}
-            selected={startDate} 
-            onChange={(date) => setStartDate(date)} 
-            dateFormat="dd/MM/yyyy" />
             <div>
-              <p>{comparaData ? 'Feriado ' + comparaData?.localName : 'Dia normal'}!</p>
+              <p style={{ margin: "0em 0em 0.5em" }}>Dia para fazer:</p>
+              <DatePicker style={{ border: "none", margin: "0em" }}
+              selected={startDate} 
+              onChange={(date) => setStartDate(date)} 
+              dateFormat="dd/MM/yyyy" />
+            </div>
+            <div>
+              <p style={{ margin: "0.3em 0em" }}>{comparaData ? 'Feriado ' + comparaData?.localName : 'Dia normal'}!</p>
             </div>
           </div>
           <div style={{ padding: "0em 1em" }} className="hourSelector">
-            <TimePicker onChange={setHour} value={hour} format="h:m" clearAriaLabel="Clear value"/>
+            <p style={{ margin: "0em 0em 0.5em" }}>Hora para começar:</p>
+            <TimePicker onChange={setHour} value={hour} amPmAriaLabel format="hh:mm" clearAriaLabel="Clear value"/>
           </div>
+        </Grid>
+
       </Paper>
     </>
   );
