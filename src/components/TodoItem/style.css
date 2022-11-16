@@ -1,0 +1,13 @@
+.dateSelector .react-datepicker-wrapper input {
+  border: 1px solid rgba(0, 0, 0, 0.342);
+  padding: 10px 10px;
+  border-radius: 5px;
+  width: 20% !important;
+}
+
+.hourSelector .react-time-picker__wrapper {
+  border: 1px solid rgba(0, 0, 0, 0.342);
+  padding: 3px 3px;
+  border-radius: 5px;
+  width: 20% !important;
+}

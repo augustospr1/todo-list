@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -9,34 +9,34 @@ import IconButton from "@mui/material/IconButton";
 import CommentIcon from "@mui/icons-material/Comment";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Paper } from "@mui/material";
-import EditTodoDialog from "./EditTodoDialog";
+import EditTodoDialog from "../EditTodoDialog";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import TimePicker from 'react-time-picker';
+import { formatDate } from "../../utils/date";
+// import './style.css';
 
 
-export default function TodoItem({ todo, deleteTodo, editTodo }) {
+export function TodoItem({ todo, deleteTodo, editTodo }) {
   const [openDialog, setOpenDialog] = React.useState(false);
 
   const dialogHandler = () => {
     setOpenDialog(!openDialog);
   };
 
-  const [startDate, setStartDate] = useState(new Date());
-  const getData = startDate.toISOString().substring(0,10);
-
-  const [hour, setHour] = useState();
-
+  const [startDate, setStartDate] = useState(new Date()); // useState para a data
+  const getData = formatDate(startDate); // Para filtrar a informação que eu busquei do seletor de data
+  const [getDataApi, setDataApi] = useState([]); // useState para o fetch
+  const [hour, setHour] = useState(); // useState para o botão de horas
+  
   const url = 'https://date.nager.at/api/v3/publicholidays/2022/BR';
-
-    fetch(url).then(
-      (response) => {
-        return response.json()
-      }).then((date) => {
-        console.log( date.map( ({date, localName}) => ({date, localName}) ) );
-      })
-
-    console.log(`'` + getData + `'`);
+  useEffect(() => {
+    fetch(url)
+    .then((response) => response.json())
+    .then((json) => setDataApi(json));
+  }, []);
+ 
+  const comparaData = getDataApi.find((atual) => atual.date === getData);
 
   return (
     <>
@@ -63,13 +63,9 @@ export default function TodoItem({ todo, deleteTodo, editTodo }) {
             selected={startDate} 
             onChange={(date) => setStartDate(date)} 
             dateFormat="dd/MM/yyyy" />
-
-            {getData === 1 ? (
-              <div>
-                <p>feriado</p>
-              </div>
-            ) : <p>Dia normal</p>}
-            
+            <div>
+              <p>{comparaData ? 'Feriado ' + comparaData?.localName : 'Dia normal'}!</p>
+            </div>
           </div>
           <div style={{ padding: "0em 1em" }} className="hourSelector">
             <TimePicker onChange={setHour} value={hour} format="h:m" clearAriaLabel="Clear value"/>
